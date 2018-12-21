@@ -1,0 +1,15 @@
+
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  name: lego-blog
+  namespace: lego
+  labels:
+    app: lego-blog
+spec:
+  routes:
+  - match: /blog
+    services:
+    - name: lego-blog
+      port: 80
+

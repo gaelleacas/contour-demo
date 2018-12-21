@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lego-v2
+  namespace: lego
+  labels:
+    app: lego-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lego-v2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: lego-v2
+    spec:
+      containers:
+      - name: lego-v2
+        image: eu.gcr.io/khaly-221308/demo-contour
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        env:
+        - name: VERSION
+          value: "Home v2"
+        - name: TEAM
+          value: "Lego"
+        - name: LABEL
+          value: "TEAM"
+        - name: PORT
+          value: "8080"
+        - name: ROUTING
+          value: "false"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lego-v2
+  namespace: lego
+  labels:
+    app: lego-v2
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  type: ClusterIP
+  selector:
+    app: lego-v2
