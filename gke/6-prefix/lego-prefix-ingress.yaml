@@ -1,0 +1,14 @@
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  name: lego
+  namespace: lego
+  labels:
+    app: lego
+spec:
+  routes:
+  - match: /lego
+    prefixRewrite: "/"
+    services:
+    - name: lego-route
+      port: 80

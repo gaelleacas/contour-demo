@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: root-santa
+  namespace: santa
+  labels:
+    app: root-santa
+  annotations:
+    kubernetes.io/ingress.class: "contour"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - secretName: tls-santa
+    hosts:
+    - santa.local
+  rules:
+  - host: santa.local
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: santa-v1
+          servicePort: 80
+

@@ -1,0 +1,26 @@
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  name: root-santa
+  namespace: santa
+  labels:
+    app: root-santa
+spec:
+  virtualhost:
+    fqdn: santa.local
+    tls:
+      secretName: tls-santa
+  routes:
+  - match: /lego
+    delegate:
+      name: lego
+      namespace: lego
+  - match: /
+    services:
+    - name: santa-ws
+      port: 80
+  - match: /socket.io
+    enableWebsockets: true
+    services:
+    - name: santa-ws
+      port: 80

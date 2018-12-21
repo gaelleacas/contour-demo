@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: santa-ws
+  namespace: santa
+  labels:
+    app: santa-ws
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: santa-ws
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: santa-ws
+    spec:
+      containers:
+      - name: santa-ws
+        image: eu.gcr.io/khaly-221308/demo-contour
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        env:
+        - name: VERSION
+          value: "w/ websocket"
+        - name: TEAM
+          value: "Santa"
+        - name: LABEL
+          value: "ROOT"
+        - name: PORT
+          value: "8080"
+        - name: ROUTING
+          value: "false"
+        - name: WS_URI
+          value: "https://santa.local"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: santa-ws
+  namespace: santa
+  labels:
+    app: santa-ws
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: santa-ws

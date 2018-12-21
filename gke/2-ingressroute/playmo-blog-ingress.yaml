@@ -1,0 +1,13 @@
+
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  name: playmo-blog
+  namespace: playmo
+  labels:
+    app: playmo-blog
+  routes:
+  - match: /blog
+    services:
+    - name: playmo-blog
+      port: 80
