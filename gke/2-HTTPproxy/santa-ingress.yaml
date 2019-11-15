@@ -1,0 +1,35 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: root-santa
+  namespace: santa
+  labels:
+    app: root-santa
+spec:
+  virtualhost:
+    fqdn: santa.local 
+  includes:
+  # delegation de la route /lego vers l'objet HTTPProxy 
+  # `lego`dans le namespace `lego`
+  - name: lego
+    namespace: lego
+    conditions:
+    - prefix: /lego
+  # delegation de la route /blog vers l'objet HTTPProxy 
+  # `lego-blog`dans le namespace `lego`
+  - name: lego-blog
+    namespace: lego
+    conditions:
+    - prefix: /blog
+  # delegation de la route /playmi vers l'objet HTTPProxy 
+  # `playmo`dans le namespace `playmo`
+  - name: playmo
+    namespace: playmo
+    conditions:
+    - prefix: /playmo
+  # Route pour Santa Ho Ho Ho
+  routes:
+    - services:
+      - name: santa-v1
+        port: 80
+

@@ -1,0 +1,21 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: lego
+  namespace: lego
+spec:
+  routes:
+  - services:
+    - name: lego-v1
+      port: 80
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: lego-blog
+  namespace: lego
+spec:
+  routes:
+  - services:
+    - name: lego-blog
+      port: 80

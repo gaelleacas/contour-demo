@@ -18,15 +18,14 @@ body {
 }
 </style>
 <div style="text-align: center; font-size: 60px">
-<p>${process.env.LABEL} ${process.env.TEAM}</p>
+<p>${process.env.TEAM}</p>
 <p><strong>${process.env.VERSION}</strong></p>
-<p><img src="https://storage.googleapis.com/khaly-img/${process.env.TEAM}.gif" alt="" width="500"></p>
 </div>
 ${ws_script}
 </body>`;
 // ********** CONTENT ******************//
 
-
+console.log(process.env.TEAM);
 
 const routing = process.env.ROUTING || false;
 // With router (to test contour prefixRewrite)
