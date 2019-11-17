@@ -1,0 +1,14 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: root-playmo
+  namespace: playmo
+spec:
+  virtualhost:
+    fqdn: playmo.santa.local
+    tls:
+      secretName: santa/wildcard-tls
+  routes:
+    - services:
+        - name: playmo-v1
+          port: 80

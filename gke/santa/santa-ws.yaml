@@ -10,11 +10,6 @@ spec:
   selector:
     matchLabels:
       app: santa-ws
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -26,17 +21,11 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: 10m
-            memory: 32Mi
         env:
         - name: VERSION
           value: "w/ websocket"
         - name: TEAM
           value: "Santa"
-        - name: LABEL
-          value: "ROOT"
         - name: PORT
           value: "8080"
         - name: ROUTING

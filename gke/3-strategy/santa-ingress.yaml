@@ -1,0 +1,22 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: root-santa
+  namespace: santa
+  labels:
+    app: root-santa
+spec:
+  virtualhost:
+    fqdn: santa.local 
+    tls:
+      secretName: santa-tls
+  # Route pour Santa Ho Ho Ho
+  routes:
+    - services:
+        - name: santa-v1
+          port: 80
+          weight: 10
+        - name: santa-v2
+          port: 80
+          weight: 90
+      
